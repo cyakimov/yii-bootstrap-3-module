@@ -1823,7 +1823,6 @@ EOD;
         if (in_array($type, array(self::INPUT_TYPE_CHECKBOX, self::INPUT_TYPE_RADIOBUTTON))) {
             $htmlOptions['label'] = $model->getAttributeLabel($attribute);
             $htmlOptions['labelOptions'] = $labelOptions;
-            $label = false;
         }
 
         $help = BsArray::popValue('help', $htmlOptions, '');
@@ -1854,7 +1853,8 @@ EOD;
         if ($labelOptions !== false && $layout !== self::FORM_LAYOUT_INLINE) {
             if (isset($labelOptions['ex']) && empty($labelOptions['ex'])) {
                 // todo: consider adding support for overriding the label with plain text.
-                $output .= parent::activeLabel($model, $attribute, $labelOptions);
+	            unset($labelOptions['ex']);
+	            $output .= parent::activeLabel($model, $attribute, $labelOptions);
             } else {
                 $output .= parent::activeLabelEx($model, $attribute, $labelOptions);
             }
@@ -1956,12 +1956,12 @@ EOD;
         self::addCssClass('form-control', $htmlOptions);
 
         $attributesLabel = $model->attributeLabels();
-        $placeHolder = BsArray::popValue('placeholder', $htmlOptions, false);
+        $placeHolder = BsArray::popValue('placeholder', $htmlOptions, null);
 
 
-        if (!empty($placeHolder)) {
+        if ($placeHolder !== null) {
             $htmlOptions['placeholder'] = $placeHolder;
-        } else {
+        } else if ($placeHolder !== false) {
             $htmlOptions['placeholder'] = isset($attributesLabel[$attribute]) ? $attributesLabel[$attribute] : '';
         }
 
