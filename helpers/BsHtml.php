@@ -2637,9 +2637,17 @@ EOD;
      */
     public static function errorSummary($model, $header = null, $footer = null, $htmlOptions = array())
     {
+        $closeText = BsArray::popValue('closeText', $htmlOptions, self::CLOSE_TEXT);
+        $closeOptions = BsArray::popValue('closeOptions', $htmlOptions, array());
+        $close = '';
+        
+        if (isset($closeOptions['dismiss'])) {
+            $close = $closeText !== false ? self::closeLink($closeText, '#', $closeOptions) : '';
+        }
+        
         // kind of a quick fix but it will do for now.
         self::addCssClass(self::$errorSummaryCss, $htmlOptions);
-        return parent::errorSummary($model, $header, $footer, $htmlOptions);
+        return parent::errorSummary($model, $close . $header, $footer, $htmlOptions);
     }
 
     // Buttons
