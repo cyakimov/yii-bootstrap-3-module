@@ -2436,9 +2436,10 @@ EOD;
         $color = BsArray::popValue('color', $htmlOptions, false);
         $groupOptions = BsArray::popValue('groupOptions', $htmlOptions, false);
         $controlOptions = BsArray::popValue('controlOptions', $htmlOptions, false);
+        $labelOptions = BsArray::popValue('labelOptions', $htmlOptions, array());
+        $template = BsArray::popValue('template', $htmlOptions, '{beginLabel}{input}{labelTitle}{help}{error}{endLabel}');
 
         $output = '';
-        $labelContent = '';
 
         if ($color) {
             if ($layout === BsHtml::FORM_LAYOUT_HORIZONTAL)
@@ -2457,21 +2458,45 @@ EOD;
             $output .= parent::openTag('div', $controlOptions);
         }
 
+        if(array_key_exists('uncheckValue',$htmlOptions))
+        {
+            $uncheck=$htmlOptions['uncheckValue'];
+            unset($htmlOptions['uncheckValue']);
+        }
+        else
+            $uncheck='0';
 
-        $input = isset($htmlOptions['input'])
-            ? $htmlOptions['input']
-            : self::createActiveInput($type, $model, $attribute, $htmlOptions);
-
-        $labelContent .= $input;
-        $labelContent .= $model->getAttributeLabel($attribute);
-
-        if ($error)
-            $labelContent .= $error;
+        if (isset($htmlOptions['input'])) {
+            $input = $htmlOptions['input'];
+        } else {
+            $htmlOptions['uncheckValue'] = null;
+            $input = self::createActiveInput($type, $model, $attribute, $htmlOptions);
+        }
 
         if (!empty($help) && !$error)
-            $labelContent .= self::inputHelp($help, $helpOptions);
+            $help = self::inputHelp($help, $helpOptions);
 
-        $output .= parent::tag('label', array(), $labelContent);
+        self::resolveNameId($model, $attribute, $htmlOptions);
+
+        if ($uncheck !== null) {
+            self::resolveNameId($model, $attribute, $htmlOptions);
+            $hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
+            $output .= self::hiddenField($htmlOptions['name'], $uncheck, $hiddenOptions);
+        }
+        $labelTitle = $model->getAttributeLabel($attribute);
+        $beginLabel = self::openTag('label', $labelOptions);
+        $label = self::label($labelTitle, $htmlOptions['id'], $labelOptions);
+        $endLabel=self::closeTag('label');
+        $output .= strtr($template, array(
+            '{input}' => $input,
+            '{beginLabel}' => $beginLabel,
+            '{label}' => $label,
+            '{labelTitle}' => $labelTitle,
+            '{endLabel}' => $endLabel,
+            '{error}' => $error,
+            '{help}' => $help,
+        ));
+        
         $output .= parent::closeTag('div'); //close <div class="checkbox">
 
         if ($layout === BsHtml::FORM_LAYOUT_HORIZONTAL) {
