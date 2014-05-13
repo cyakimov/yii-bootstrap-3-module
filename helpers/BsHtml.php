@@ -36,6 +36,7 @@ class BsHtml extends CHtml
     const FORM_LAYOUT_INLINE = 'inline';
     const FORM_LAYOUT_SEARCH = 'search';
     const INPUT_TYPE_TEXT = 'textField';
+	const INPUT_TYPE_TIME = 'timeField';
     const INPUT_TYPE_PASSWORD = 'passwordField';
     const INPUT_TYPE_URL = 'urlField';
     const INPUT_TYPE_EMAIL = 'emailField';
@@ -898,6 +899,8 @@ class BsHtml extends CHtml
         switch ($type) {
             case self::INPUT_TYPE_TEXT:
                 return self::textField($name, $value, $htmlOptions);
+			case self::INPUT_TYPE_TIME:
+				return self::timeField($name, $value, $htmlOptions);
             case self::INPUT_TYPE_PASSWORD:
                 return self::passwordField($name, $value, $htmlOptions);
             case self::INPUT_TYPE_URL:
@@ -1804,6 +1807,19 @@ EOD;
     }
 
     /**
+     * Generates a control group with a time field for a model attribute.
+     * @param CModel $model the data model.
+     * @param string $attribute the attribute.
+     * @param array $htmlOptions additional HTML attributes.
+     * @return string the generated control group.
+     * @see self::activeControlGroup
+     */
+	public static function activeTimeFieldControlGroup($model, $attribute, $htmlOptions = array())
+	{
+		return self::activeControlGroup(self::INPUT_TYPE_TIME, $model, $attribute, $htmlOptions);
+	}
+
+    /**
      * Generates an active form row.
      * @param string $type the input type.
      * @param CModel $model the data model.
@@ -1918,6 +1934,8 @@ EOD;
                 return self::activeUneditableField($model, $attribute, $htmlOptions);
             case self::INPUT_TYPE_SEARCH:
                 return self::activeSearchQueryField($model, $attribute, $htmlOptions);
+			case self::INPUT_TYPE_TIME:
+				return self::activeTimeField($model, $attribute, $htmlOptions);
             default:
                 throw new CException('Invalid input type "' . $type . '".');
         }
@@ -2269,6 +2287,19 @@ EOD;
     {
         return self::activeTextInputField('text', $model, $attribute, $htmlOptions);
     }
+
+	/**
+	 * Generates a time field input for a model attribute
+     * @param CModel $model the data model.
+     * @param string $attribute the attribute.
+     * @param array $htmlOptions additional HTML attributes.
+     * @return string the generated input field.
+     * @see self::activeTextInputField
+	 */
+	public static function activeTimeField($model, $attribute, $htmlOptions = array())
+	{
+		return self::activeTextInputField('time', $model, $attribute, $htmlOptions);
+	}
 
     /**
      * Generates a control group with a password field for a model attribute.
