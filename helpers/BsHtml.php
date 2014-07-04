@@ -4006,7 +4006,7 @@ EOD;
     {
         $linkOptions = BsArray::popValue('linkOptions', $htmlOptions, array());
         if (BsArray::popValue('active', $htmlOptions, false)) {
-            $label .= self::tag('span', array('class' => 'sr-only'));
+            $label .= self::tag('span', array('class' => 'sr-only'), BsArray::popValue('activeLabelSrOnly', $htmlOptions, '(current)'));
             self::addCssClass('active', $htmlOptions);
         }
         if (BsArray::popValue('disabled', $htmlOptions, false)) {
