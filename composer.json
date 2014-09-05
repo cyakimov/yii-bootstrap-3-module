@@ -5,12 +5,12 @@
         "yii",
         "framework",
         "extension",
-		"bootstrap"
+        "bootstrap"
     ],
     "homepage": "https://bitbucket.org/DrMabuse/yii-bootstrap-3-module",
     "type": "library",
     "license": "BSD-3-Clause",
-    "version": "0.0.8",
+    "version": "0.0.9",
     "authors": [
         {
             "name": "Pascal Brewing",

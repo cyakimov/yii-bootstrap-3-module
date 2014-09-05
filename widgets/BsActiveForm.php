@@ -487,6 +487,21 @@ class BsActiveForm extends CActiveForm
     }
 
     /**
+     * Generates a control group with a time field for a model attribute.
+     * @param CModel $model the data model.
+     * @param string $attribute the attribute name.
+     * @param array $htmlOptions additional HTML attributes.
+     * @return string the generated row.
+     * @see BsHtml::activeTextFieldControlGroup
+     */
+    public function timeFieldControlGroup($model, $attribute, $htmlOptions = array())
+    {
+
+        $htmlOptions = $this->processRowOptions($model, $attribute, $htmlOptions);
+        return BsHtml::activeTimeFieldControlGroup($model, $attribute, $htmlOptions);
+    }
+
+    /**
      * Generates a control group with a password field for a model attribute.
      * @param CModel $model the data model.
      * @param string $attribute the attribute name.
