@@ -4432,7 +4432,7 @@ EOD;
         $content = BsArray::popValue('content', $htmlOptions);
 
         if (!empty($content)) {
-            $barOptions['content'] = $content;
+            $barOption['content'] = $content;
         }
 
         $content = self::bar($width, $barOption);
