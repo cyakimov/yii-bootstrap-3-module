@@ -32,7 +32,7 @@ class BsGridView extends CGridView
      * @var string the URL of the CSS file used by this grid view.
      * Defaults to false, meaning that no CSS will be included.
      */
-    public $cssFile = false;
+    public $cssFile = null;
     /**
      * @var string the template to be used to control the layout of various sections in the view.
      */
@@ -70,7 +70,7 @@ class BsGridView extends CGridView
 		    $baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('bootstrap.widgets.assets')) . '/gridview';
 	    }
 
-	    if ($this->cssFile === false) {
+	    if ($this->cssFile === null) {
 		    $this->cssFile = $baseScriptUrl . '/styles.css';
 	    }
 
