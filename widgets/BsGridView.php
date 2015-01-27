@@ -72,9 +72,9 @@ class BsGridView extends CGridView
 
 	    if ($this->cssFile === null) {
 		    $this->cssFile = $baseScriptUrl . '/styles.css';
-	    }
+	                Yii::app()->getClientScript()->registerCssFile($this->cssFile);
+                }
 
-	    Yii::app()->getClientScript()->registerCssFile($this->cssFile);
     }
 
     /**
