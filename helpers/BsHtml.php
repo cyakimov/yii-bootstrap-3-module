@@ -1448,7 +1448,7 @@ EOD;
     public static function searchQueryField($name, $value = '', $htmlOptions = array())
     {
         self::addCssClass('search-query', $htmlOptions);
-        return self::textField($name, $value, $htmlOptions);
+        return self::textInputField('search', $name, $value, $htmlOptions);
     }
 
     /**
