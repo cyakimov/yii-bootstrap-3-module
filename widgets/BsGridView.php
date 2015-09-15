@@ -29,7 +29,7 @@ class BsGridView extends CGridView
      */
     public $pager = array('class' => 'bootstrap.widgets.BsPager');
     /**
-     * @var string the URL of the CSS file used by this grid view.
+     * @var bool|string the URL of the CSS file used by this grid view.
      * Defaults to false, meaning that no CSS will be included.
      */
     public $cssFile = false;
@@ -44,7 +44,7 @@ class BsGridView extends CGridView
      */
     public function init()
     {
-	    $baseScriptUrl = $this->baseScriptUrl;
+	$baseScriptUrl = $this->baseScriptUrl;
 
         parent::init();
         $classes = array('table');
@@ -67,14 +67,14 @@ class BsGridView extends CGridView
         }
 
 	    if ($baseScriptUrl === null) {
-		    $baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('bootstrap.widgets.assets')) . '/gridview';
+		$baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('bootstrap.widgets.assets')) . '/gridview';
 	    }
-
-	    if ($this->cssFile === false) {
-		    $this->cssFile = $baseScriptUrl . '/styles.css';
-	    }
-
-	    Yii::app()->getClientScript()->registerCssFile($this->cssFile);
+	
+	    if ($this->cssFile === null) {
+                $this->cssFile = $baseScriptUrl . '/styles.css';
+                Yii::app()->getClientScript()->registerCssFile($this->cssFile);
+            }
+	
     }
 
     /**
