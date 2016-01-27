@@ -39,9 +39,9 @@ class BsDataColumn extends CDataColumn
 
             if (isset($sort->directions[$this->name])) {
                 if ($sort->directions[$this->name])
-                    $label .= ' <span class="dropup"><span class="caret"></span></span>';
-                else
                     $label .= ' <span class="caret"></span>';
+                else
+                    $label .= ' <span class="dropup"><span class="caret"></span></span>';
             }
 
             echo $sort->link($this->name, $label, array('class' => 'sort-link'));
