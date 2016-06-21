@@ -24,6 +24,13 @@ class BsApi extends CComponent
     const PLUGIN_TOOLTIP = 'tooltip';
     const PLUGIN_TRANSITION = 'transition';
     const PLUGIN_TYPEAHEAD = 'typeahead';
+
+    /**
+     * @var static
+     */
+    protected static $instance;
+
+    public $alias = 'bootstrap';
     
     /**
     * @var int static counter, used for determining script identifiers
@@ -47,9 +54,10 @@ class BsApi extends CComponent
      */
     public function init()
     {
+        self::$instance = $this;
         /* ensure all widgets - plugins are accessible to the library */
-        Yii::import('bootstrap.widgets.*');
-
+        Yii::import("{$this->alias}.widgets.*");
+        
         /* register css assets */
         foreach ($this->assetsCss as $css) {
             $this->registerAssetCss($css);
@@ -61,6 +69,19 @@ class BsApi extends CComponent
     }
 
     /**
+     * @return static
+     */
+    public static function getInstance()
+    {
+        if (!self::$instance) {
+            $me = new static;
+            $me->init();
+        }
+        
+        return self::$instance;
+    }
+    
+    /**
      * Returns the assets URL.
      * Assets folder has few orphan and very useful utility libraries.
      * @return string
@@ -71,7 +92,7 @@ class BsApi extends CComponent
             return $this->_assetsUrl;
         } else {
             $forceCopyAssets = true;
-            $path = Yii::getPathOfAlias('bootstrap');
+            $path = Yii::getPathOfAlias($this->alias);
             $assetsUrl = Yii::app()->assetManager->publish(
                 $path . DIRECTORY_SEPARATOR . 'assets',
                 false,

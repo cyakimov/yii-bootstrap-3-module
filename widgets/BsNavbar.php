@@ -103,8 +103,8 @@ class BsNavbar extends CWidget
             BsHtml::addCssClass('collapse navbar-collapse', $this->collapseOptions);
             ob_start();
             /* @var BsCollapse $collapseWidget */
-            $collapseWidget = $this->controller->widget(
-                'bootstrap.widgets.BsCollapse',
+            $alias = sprintf('%s.widgets.BsCollapse', BsApi::getInstance()->alias);
+            $collapseWidget  = $this->controller->widget($alias,
                 array(
                     'toggle' => false, // navbars are collapsed by default
                     'content' => $items,

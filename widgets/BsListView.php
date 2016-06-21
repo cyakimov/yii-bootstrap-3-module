@@ -21,7 +21,7 @@ class BsListView extends CListView
      * @var array the configuration for the pager.
      * Defaults to <code>array('class'=>'ext.bootstrap.widgets.BsPager')</code>.
      */
-    public $pager = array('class' => 'bootstrap.widgets.BsPager');
+    public $pager = array('class' => BsPager::class);
     /**
      * @var string the URL of the CSS file used by this detail view.
      * Defaults to false, meaning that no CSS will be included.

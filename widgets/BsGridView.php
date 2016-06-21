@@ -27,7 +27,7 @@ class BsGridView extends CGridView
      * @var array the configuration for the pager.
      * Defaults to <code>array('class'=>'ext.bootstrap.widgets.TbPager')</code>.
      */
-    public $pager = array('class' => 'bootstrap.widgets.BsPager');
+    public $pager = array('class' => BsPager::class);
     /**
      * @var bool|string the URL of the CSS file used by this grid view.
      * Defaults to false, meaning that no CSS will be included.
@@ -67,7 +67,8 @@ class BsGridView extends CGridView
         }
 
 	    if ($baseScriptUrl === null) {
-		$baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('bootstrap.widgets.assets')) . '/gridview';
+            $alias         = BsApi::getInstance()->alias;
+            $baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias($alias . '.widgets.assets')) . '/gridview';
 	    }
 	
 	    if ($this->cssFile === null) {
@@ -82,9 +83,10 @@ class BsGridView extends CGridView
      */
     protected function initColumns()
     {
+        $columnClass = sprintf('%s.widgets.BsDataColumn', BsApi::getInstance()->alias);
         foreach ($this->columns as $i => $column) {
             if (is_array($column) && !isset($column['class'])) {
-                $this->columns[$i]['class'] = 'bootstrap.widgets.BsDataColumn';
+                $this->columns[$i]['class'] = $columnClass;
             }
         }
         parent::initColumns();

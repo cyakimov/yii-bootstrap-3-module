@@ -7,8 +7,8 @@
  * @package bootstrap.behaviors
  */
 
-Yii::import('bootstrap.components.BsApi');
-Yii::import('bootstrap.helpers.BsHtml');
+Yii::import(sprintf('%s.components.BsApi', BsApi::getInstance()->alias));
+Yii::import(sprintf('%s.helpers.BsHtml', BsApi::getInstance()->alias));
 
 /**
  * Bootstrap widget behavior.
